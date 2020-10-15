@@ -1,15 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage('Example') {
+        stage('Build') {
             steps {
-                echo 'Hello World'
+                 bat 'echo "Hello World outside retry and timeout"'
+                retry(3) {
+                    bat 'echo "Hello World inside retry"'
+                }
 
-                script {
-                    def browsers = ['chrome', 'firefox']
-                    for (int i = 0; i < browsers.size(); ++i) {
-                        echo "Testing the ${browsers[i]} browser"
-                    }
+                timeout(time: 1, unit: 'MINUTES') {
+                    bat 'echo "Hello World2 inside timeout"'
                 }
             }
         }
