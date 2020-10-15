@@ -4,14 +4,21 @@ pipeline {
         stage('Build') {
             steps {
                  bat 'echo "Hello World outside retry and timeout"'
-                retry(3) {
-                    bat 'echo "Hello World inside retry"'
-                }
+                // retry(3) {
+                //     bat 'echo "Hello World inside retry"'
+                // }
 
-                timeout(time: 1, unit: 'MINUTES') {
-                    bat 'echo "Hello World2 inside timeout"'
-                }
+                // timeout(time: 1, unit: 'MINUTES') {
+                //     bat 'echo "Hello World2 inside timeout"'
+                // }
             }
         }
     }
+    post {
+        success {
+            echo 'This will run only if successful'
+            build 'Project1'
+        }
+    }
+
 }
